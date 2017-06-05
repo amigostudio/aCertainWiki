@@ -14,7 +14,7 @@ module.exports = Effect;
  * @param {int} mParams.times 技能效果发动次数
  * 
  */
-Effect = function (mParams) {
+function Effect(mParams) {
     if (typeof(mParams) !== "object") {
         throw new TypeError("Illeagal constructor parameter for class 'Effect'!");
     };
