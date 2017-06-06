@@ -24,8 +24,6 @@ function Effect(mParams) {
     this.setTargetAmount(mParam.targetAmount);
     this.setDuration(mParam.duration);
     this.setTimes(mParam.times);
-
-    return this;
 }
 
 // getter and setter for property 'type'

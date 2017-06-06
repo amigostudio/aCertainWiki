@@ -22,8 +22,6 @@ function Skills(mParams) {
     this.setSlideSkillEffects(mParams.slideSkillEffects);
     this.setDriveSkillEffects(mParams.driveSkillEffects);
     this.setLeaderSkillEffects(mParams.leaderSkillEffects);
-
-    return this;
 }
 
 // getter and setter for property 'attack' 
@@ -91,6 +89,43 @@ Skills.prototype.setLeaderSkillEffects = function(aLeaderSkillEffects) {
     return this;
 }
 
+// Override toString function
+Skills.prototype.toString = function () {
+    var sOutputString = "Skills: {'attack': " + this.getAttack() + ", " 
+                + "'heavySkill': [ {";
+    this.getHeavySkillEffects().forEach(function(oEffect) {
+        sOutputString += oEffect.toString();
+        sOutputString += "}, "
+    });
+    sOutputString = sOutputString.slice(0, sOutputString - 2) + "], ";
+
+    sOutputString += "slideSkill: [ {";
+    this.getSlideSkillEffect().forEach(function(oEffect) {
+        sOutputString += oEffect.toString();
+        sOutputString += "}, "
+    });
+    sOutputString = sOutputString.slice(0, sOutputString - 2) + "], ";
+
+    sOutputString += "driveSkill: [ {";
+    this.getDriveSkillEffects().forEach(function(oEffect) {
+        sOutputString += oEffect.toString();
+        sOutputString += "}, "
+    });
+    sOutputString = sOutputString.slice(0, sOutputString - 2) + "], ";
+
+    sOutputString += "leaderSkill: [{";
+    this.getLeaderSkillEffects().forEach(function(oEffect) {
+        sOutputString += oEffect.toString();
+        sOutputString += "}, "
+    });
+    sOutputString = sOutputString.slice(0, sOutputString - 2) + "] } ";
+
+    sOutputString += "}";
+
+    return sOutputString;
+}
+
+// add Effect functions for skills
 Skills.prototype.addHeavySkillEffect = function(oEffect) {  
     this.setHeavySkillEffects(this.getHeavySkillEffects().push(oEffect));
 
