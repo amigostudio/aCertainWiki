@@ -114,11 +114,11 @@ Child.prototype.setType = function(iType) {
     }
 };
 
-// getter and setter for property 'type'
+// getter and setter for property 'career'
 Child.prototype.getCareer = function() {
     return this.career;
 }
-Child.prototype.setType = function(iCareer) {  
+Child.prototype.setCareer = function(iCareer) {  
     switch (iCareer) {
         case 1:
         case 2:
@@ -134,4 +134,68 @@ Child.prototype.setType = function(iCareer) {
     }
 };
 
+// getter and setter for property 'Parameter'
+Child.prototype.getParameter = function() {
+    return this.parameter;
+}
+Child.prototype.setParameter = function(oParameter) {
+    this.parameter = oParameter;
 
+    return this;
+}
+
+// getter and setter for property 'Skills'
+Child.prototype.getSkills = function() {
+    return this.skills;
+}
+Child.prototype.setSkills = function(oSkills) {
+    this.skills = oSkills;
+
+    return this;
+}
+
+// getter and setter for property 'tags'
+Child.prototype.getTags = function() {
+    return this.tags;
+}
+Child.prototype.setTags = function(aTags) {
+    if (isNaN(aTags.length)) {
+        throw new TypeError("'"+ aTags +"' is an illeagal input value when setting Child.tags!");
+    }
+    this.tags = aTags;
+
+    return this;
+}
+
+// getter and setter for property 'description'
+Child.prototype.getDescription = function() {
+    return this.description;
+}
+Child.prototype.setDescription = function(sDescription) {
+    if (typeof(sDescription) !== "string") {
+        throw new TypeError("Illeagal input type when setting Child.description!");
+    }
+
+    this.description = sDescription;
+    return this;
+}
+
+// override toString() function
+Child.prototype.toString = function() {
+    return "Child: {'id': " + this.getId() + ", " 
+                    + "'name': " + this.getName() + ", "
+                    + "'icon': " + this.getIcon() + ", "
+                    + "'initStar': " + this.getInitStar() + ", "
+                    + "'type': " + this.getType() + ", "
+                    + "'career': " + this.getCareer() + ", "
+                    + "'parameter': " + this.getParameter().toString() + ", "
+                    + "'skills': " + this.getSkills().toString() + ", "
+                    + "'tags': " + this.getTags() + ", "
+                    + "'description': " + this.getDescription() + "} ";
+}
+
+Child.prototype.addTag = function(sTag) {
+    this.setTags(this.getTags().push(sTag));
+    
+    return this;
+}
