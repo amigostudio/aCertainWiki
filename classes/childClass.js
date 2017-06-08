@@ -86,12 +86,11 @@ Child.prototype.setInitStar = function(iInitStar) {
         case 4:
         case 5:
             this.initStar = iInitStar;
-            return this;
             break;
         default:
             throw new TypeError("'"+ iInitStar +"' is an illeagal input value when setting Child.initStar!");
-            break;
     }
+    return this;
 };
 
 // getter and setter for property 'type'
@@ -106,12 +105,12 @@ Child.prototype.setType = function(iType) {
         case 4:
         case 5:
             this.type = iType;
-            return this;
             break;
         default:
             throw new TypeError("'"+ iType +"' is an illeagal input value when setting Child.type!");
-            break;
     }
+
+    return this;
 };
 
 // getter and setter for property 'career'
@@ -126,12 +125,11 @@ Child.prototype.setCareer = function(iCareer) {
         case 4:
         case 5:
             this.career = iCareer;
-            return this;
             break;
         default:
             throw new TypeError("'"+ iCareer +"' is an illeagal input value when setting Child.career!");
-            break;
     }
+    return this;
 };
 
 // getter and setter for property 'Parameter'
@@ -195,7 +193,23 @@ Child.prototype.toString = function() {
 }
 
 Child.prototype.addTag = function(sTag) {
+    this.removeTag(sTag);
     this.setTags(this.getTags().push(sTag));
-    
+
+    return this;
+}
+
+Child.prototype.removeTag = function(sTag) {
+    var aTags = this.getTags();
+    var iTag = aTags.findIndex(function(tag) {
+        return sTag === tag;
+    });
+    if (iTag === -1) {
+        console.warn("tag '" + sTag + "' not found when trying to remove.");
+    } else {
+        var sRemoved = aTags.splice(iTag, 1);
+        console.log("tag '" + sRemoved + "' is removed.");
+    }
+
     return this;
 }
