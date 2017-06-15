@@ -1,6 +1,6 @@
 module.exports = Skills;
 var Skills = require('./skillsClass');
-var Parameter = require('./parameterClass')
+var Parameter = require('./parameterClass');
 
 "use strict";
 
