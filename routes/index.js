@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var mongoose = require("mongoose");
 var systemPropertyCollection = require("../model/systemPropertyCollection");
-mongoose.connect('mongodb://localhost/aCertainWiki');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -23,7 +21,6 @@ router.get('/', function (req, res, next) {
         }
 
     })
-
 
 });
 

@@ -7,6 +7,10 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var childResource = require("./routes/childResource");
+var mongoose = require('mongoose');
+// connect DB
+mongoose.connect('mongodb://localhost/aCertainWiki');
 
 var app = express();
 
@@ -24,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/child', childResource);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

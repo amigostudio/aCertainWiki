@@ -3,14 +3,14 @@ var Schema = mongoose.Schema;
 
 var childCollection = new Schema({
     // oId: "ObjectId",
-    NAME: "String",
-    ICON: "String",
-    INIT_STAR: "Integer",
-    CAREER: "Integer",
+    NAME: String,
+    ICON: String,
+    INIT_STAR: Number,
+    CAREER: Number,
     // Array of {Degree}    
-    DEGREE: "Array", 
+    DEGREE: [Schema.Types.ObjectId], 
     // Array of {Tag}
-    TAG: "Array"
+    TAG: [Schema.Types.ObjectId]
 });
 
 module.exports = mongoose.model('CHILD', childCollection);

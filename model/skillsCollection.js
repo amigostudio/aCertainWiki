@@ -3,10 +3,10 @@ var Schema = mongoose.Schema;
 
 var skillsCollection = new Schema({
     // oId: "ObjectId",
-    ATTACK: "Integer",
-    HEAVY: "Array", // Array of {effect}
-    SLIDE: "Array", // Array of {effect}
-    DRIVE: "Array"  // Array of {effect}
+    ATTACK: Number,
+    HEAVY: [Schema.Types.ObjectId], // Array of {effect}
+    SLIDE: [Schema.Types.ObjectId], // Array of {effect}
+    DRIVE: [Schema.Types.ObjectId]  // Array of {effect}
 });
 
 module.exports = mongoose.model('SKILLS', skillsCollection);
