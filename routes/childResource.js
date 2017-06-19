@@ -10,11 +10,18 @@ var skillsCollection = require("../model/skillsCollection");
 var tagCollaction = require("../model/tagCollaction");
 
 
-/* GET home page. */
+/* GET Child list */
 router.get('/', function (req, res, next) {
     // TODO
 
     
 });
+
+/* POST creat child */
+router.post('/', function (req, res, next) {
+    debugger;
+    var postObject = req.body;
+    parameterCollection.insertParameter(postObject);
+})
 
 module.exports = router;
