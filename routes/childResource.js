@@ -20,8 +20,18 @@ router.get('/', function (req, res, next) {
 /* POST creat child */
 router.post('/', function (req, res, next) {
     debugger;
-    var postObject = req.body;
-    parameterCollection.insertParameter(postObject);
+    // [todo]
+    var requestBody = req.body;
+    childCollection.findOne({NAME: requestBody.name}).then(function(err, doc) {
+        if (doc) {
+            throw new Error()
+        }
+    }).catch(function() {
+        debugger;
+    }) 
+    
+
+    // parameterCollection.insertParameter(postObject);
 })
 
 module.exports = router;

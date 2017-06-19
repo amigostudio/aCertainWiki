@@ -1,0 +1,58 @@
+{
+	"name": "Shiki",
+	"icon": "shiki.com",
+	"initStar": 5,
+	"type": 1,
+	"career": 1,
+	"degree": [{
+		"parameter": {
+			"HP": 100,
+			"ATK": 200,
+			"DEF": 50,
+			"AGL": 100,
+			"CRI": 99,
+			"OVR": 10000
+		},
+		"skills": {
+			"attack": 500,
+			"heavy": [{
+				"type": "blood",
+				"value": 50.6,
+				"target": "enemy",
+				"targetAmount": 3,
+				"duration": 14.5,
+				"times": 1
+			}, {
+				"type": "shield",
+				"value": 500,
+				"target": "self",
+				"targetAmount": 1,
+				"duration": 20,
+				"times": 0
+			}],
+			"slide": [{
+				"type": "attack",
+				"value": 1500,
+				"target": "enemy",
+				"targetAmount": 2,
+				"duration": 0,
+				"times": 4
+			}],
+			"drive": [{
+				"type": "heal",
+				"value": 2500,
+				"target": "self",
+				"targetAmount": 5,
+				"duration": 0,
+				"times": 1
+			}]
+		},
+		"tag": [{
+			"tag": "blood"
+		}, {
+			"tag": "heal"
+		}, {
+			"tag": "fire"
+		}]
+	}]
+}
