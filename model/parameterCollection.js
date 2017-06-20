@@ -11,7 +11,7 @@ var parameterSchema = new Schema({
     OVR: Number
 });
 
-var parameterCollection = mongoose.model('PARAMETER', parameterSchema);
+var parameterCollection = mongoose.model('parameter', parameterSchema);
 
 module.exports = parameterCollection;
 

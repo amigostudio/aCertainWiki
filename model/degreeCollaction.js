@@ -3,10 +3,13 @@ var Schema = mongoose.Schema;
 
 var degreeCollection = new Schema({
     // oId: "ObjectId",
-    STAR: Number,
-    LEVEL: Number,
-    PLUS: Number,
-    PARAMETER: Schema.Types.ObjectId
+    star: Number,
+    level: Number,
+    plus: Number,
+    parameter: {
+        type: Schema.Types.ObjectId,
+        ref: 'parameter'
+    }
 });
 
-module.exports = mongoose.model('DEGREE', degreeCollection);
+module.exports = mongoose.model('degree', degreeCollection);

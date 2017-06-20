@@ -3,14 +3,20 @@ var Schema = mongoose.Schema;
 
 var childCollection = new Schema({
     // oId: "ObjectId",
-    NAME: String,
-    ICON: String,
-    INIT_STAR: Number,
-    CAREER: Number,
+    name: String,
+    icon: String,
+    initStar: Number,
+    career: Number,
     // Array of {Degree}    
-    DEGREE: [Schema.Types.ObjectId], 
+    degree: [{
+        type: Schema.Types.ObjectId,
+        ref: 'degree'
+    }], 
     // Array of {Tag}
-    TAG: [Schema.Types.ObjectId]
+    tag: [{
+        type: Schema.Types.ObjectId,
+        ref: 'tag'
+    }]
 });
 
-module.exports = mongoose.model('CHILD', childCollection);
+module.exports = mongoose.model('child', childCollection);

@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 var effectCollection = new Schema({
     // oId: "ObjectId",
-    TYPE: String,
-    VALUE: Number,
-    TARGET: String,
-    TARGET_AMOUNT: Number,
-    DURATION: Number,
-    TIMES: Number
+    type: String,
+    value: Number,
+    target: String,
+    targetAmount: Number,
+    duration: Number,
+    times: Number
 });
 
-module.exports = mongoose.model('EFFECT', effectCollection);
+module.exports = mongoose.model('effect', effectCollection);

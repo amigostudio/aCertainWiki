@@ -5,6 +5,9 @@
 	"type": 1,
 	"career": 1,
 	"degree": [{
+		"star": 5,
+		"level": 1,
+		"plus": 0,
 		"parameter": {
 			"HP": 100,
 			"ATK": 200,
@@ -13,7 +16,7 @@
 			"CRI": 99,
 			"OVR": 10000
 		},
-		"skills": {
+		"skill": {
 			"attack": 500,
 			"heavy": [{
 				"type": "blood",
@@ -46,13 +49,13 @@
 				"duration": 0,
 				"times": 1
 			}]
-		},
-		"tag": [{
-			"tag": "blood"
-		}, {
-			"tag": "heal"
-		}, {
-			"tag": "fire"
-		}]
-	}]
+		}
+	}],
+    "tag": [{
+        "tag": "blood"
+    }, {
+        "tag": "heal"
+    }, {
+        "tag": "fire"
+    }]
 }

@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var tagCollection = new Schema({
     // oId: "ObjectId",
-    TAG: String
+    tag: String
 });
 
-module.exports = mongoose.model('TAG', tagCollection);
+module.exports = mongoose.model('tag', tagCollection);

@@ -7,4 +7,4 @@ var systemPropertyCollection = new Schema({
     VALUE: String
 });
 
-module.exports = mongoose.model('SYSTEM_PROPERTY', systemPropertyCollection);
+module.exports = mongoose.model('system_property', systemPropertyCollection);
