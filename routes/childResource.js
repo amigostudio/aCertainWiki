@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-var mongoose = require("mongoose");
+let express = require('express');
+let router = express.Router();
+let mongoose = require("mongoose");
 // import models
-var childCollection = require("../model/childCollection");
-var degreeCollaction = require("../model/degreeCollaction");
-var effectCollection = require("../model/effectCollection");
-var parameterCollection = require("../model/parameterCollection");
-var skillCollection = require("../model/skillCollection");
-var tagCollaction = require("../model/tagCollaction");
+let childCollection = require("../model/childCollection");
+let degreeCollaction = require("../model/degreeCollaction");
+let effectCollection = require("../model/effectCollection");
+let parameterCollection = require("../model/parameterCollection");
+let skillCollection = require("../model/skillCollection");
+
 
 
 /* GET Child list */
 router.get('/', function (req, res, next) {
     // TODO
-    var a = childCollection.find().then((docs) => {
-        var aChilds = [];
+    let a = childCollection.find().then((docs) => {
+        let aChilds = [];
         docs.forEach(oItem => {
             aChilds.push(oItem._doc);
         })
@@ -31,18 +31,9 @@ router.get('/:childId', function (req, res, next) {
     childCollection.findById(sChildId).populate({
         path: 'degree',
         select: '_id star parameter plus skill level',
-        // model: 'degree',
-        // populate: ['parameter', 'skill']
+
         populate: {
-            path: 'parameter skill',
-            // select: '_id sname',
-            // model: 'parameter skill'
-            // populate: {
-            //     path: 'heavy slide drive',
-            //     populate: {
-            //         path: 'effect'
-            //     }
-            // }
+            path: 'parameter skill'
         }
     }).exec((err, doc) => {
         let oObj = doc._doc;
@@ -91,11 +82,11 @@ router.get('/:childId', function (req, res, next) {
 
 /* POST creat child */
 router.post('/', (req, res, next) => {
-    var oRequestBody = req.body;
-    var oDegree = oRequestBody.degree[0];
-    var oParameter = oRequestBody.degree[0].parameter;
-    var oChildToSave = {};
-    var oSkill = {};
+    let oRequestBody = req.body;
+    let oDegree = oRequestBody.degree[0];
+    let oParameter = oRequestBody.degree[0].parameter;
+    let oChildToSave = {};
+    let oSkill = {};
     childCollection.findOne({NAME: oRequestBody.name}).then((err, doc) => {
         if (doc) {
             throw new Error("Child with name '" + oRequestBody.name + "' already exists!");
@@ -104,10 +95,10 @@ router.post('/', (req, res, next) => {
         let aSkillParamPromises = [];
         let iHeavy = 0, iSlide = 0, iDrive = 0;
 
-        for (var i in oDegree.skill.heavy) {
-            var oEffect = oDegree.skill.heavy[i];
+        for (let i in oDegree.skill.heavy) {
+            let oEffect = oDegree.skill.heavy[i];
             iHeavy++;
-            var obj = JSON.parse(JSON.stringify({
+            let obj = JSON.parse(JSON.stringify({
                 "type": oEffect.type,
                 "value": oEffect.value,
                 "target": oEffect.target,
@@ -119,10 +110,10 @@ router.post('/', (req, res, next) => {
             aEffectPromises.push(effectCollection.create(obj));
         }
 
-        for (var i in oDegree.skill.slide) {
-            var oEffect = oDegree.skill.slide[i];
+        for (let i in oDegree.skill.slide) {
+            let oEffect = oDegree.skill.slide[i];
             iSlide++;
-            var obj = JSON.parse(JSON.stringify({
+            let obj = JSON.parse(JSON.stringify({
                 "type": oEffect.type,
                 "value": oEffect.value,
                 "target": oEffect.target,
@@ -133,10 +124,10 @@ router.post('/', (req, res, next) => {
             aEffectPromises.push(effectCollection.create(obj));            
         }
 
-        for (var i in oDegree.skill.drive) {
-            var oEffect = oDegree.skill.drive[i];
+        for (let i in oDegree.skill.drive) {
+            let oEffect = oDegree.skill.drive[i];
             iDrive++;
-            var obj = JSON.parse(JSON.stringify({
+            let obj = JSON.parse(JSON.stringify({
                 "type": oEffect.type,
                 "value": oEffect.value,
                 "target": oEffect.target,
@@ -157,8 +148,8 @@ router.post('/', (req, res, next) => {
         }));
         
         let oSkillPromise = Promise.all(aEffectPromises).then(values => {
-            var oSaveSkill = {};
-            var i = 0;
+            let oSaveSkill = {};
+            let i = 0;
             oSaveSkill.attack = oDegree.skill.attack;
             oSaveSkill.heavy = [];
             oSaveSkill.slide = [];
@@ -192,7 +183,7 @@ router.post('/', (req, res, next) => {
                 skill: oSkillModel.id
             });
         }).then((oDegreeModel) => {
-            var oChild = {};
+            let oChild = {};
             oChild.name = oRequestBody.name;
             oChild.icon = oRequestBody.icon;
             oChild.initStar = oRequestBody.initStar;
@@ -209,7 +200,7 @@ router.post('/', (req, res, next) => {
             });
         });
     }).catch(function(err) {
-        console.log(err);
+        console.error(err);
     });
     // parameterCollection.insertParameter(postObject);
 });

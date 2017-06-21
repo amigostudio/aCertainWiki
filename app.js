@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var childResource = require("./routes/childResource");
+var tagResource = require("./routes/tagResource");
 var mongoose = require('mongoose');
 // connect DB
 mongoose.connect('mongodb://localhost/aCertainWiki');
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/childs', childResource);
+app.use('/tags', tagResource);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -38,14 +40,23 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
+
+// error handler
+app.use(function(err, req, res, next) {
+  let resBody = {};
+  resBody.errorCode = err.code;
+  resBody.errorMessage = err.message
+  
+  res.status(err.status).json(resBody).send();
 });
 
 module.exports = app;
