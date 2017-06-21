@@ -11,7 +11,7 @@ var degreeCollection = new Schema({
         ref: 'parameter'
     },
     skill: {
-        type: [Schema.Types.ObjectId],
+        type: Schema.Types.ObjectId,
         ref: 'skill'
     }
 });

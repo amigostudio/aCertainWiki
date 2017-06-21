@@ -27,14 +27,14 @@ router.get('/', function (req, res, next) {
 /* GET Child by Id */
 router.get('/:childId', function (req, res, next) {
     // TODO
-    var sChildId = req.params.childId;
+    let sChildId = req.params.childId;
     childCollection.findById(sChildId).populate({
         path: 'degree',
         select: '_id star parameter plus skill level',
         // model: 'degree',
         // populate: ['parameter', 'skill']
         populate: {
-            path: 'parameter',
+            path: 'parameter skill',
             // select: '_id sname',
             // model: 'parameter skill'
             // populate: {
@@ -44,16 +44,45 @@ router.get('/:childId', function (req, res, next) {
             //     }
             // }
         }
-    // }).populate({
-    //     path: 'degree.parameter'
     }).exec((err, doc) => {
-        var oObj = doc._doc;
-        var oDegree = oObj.degree[0]._doc
+        let oObj = doc._doc;
+        let oDegree = oObj.degree[0]._doc
+        let aEffectPromises = [];
         oObj.degree[0] = oDegree;
 
         // [TODO] populate skill info
+        let aHeavyEffectIds = oDegree.skill.heavy;
+        let aSlideEffectIds = oDegree.skill.slide;
+        let aDriveEffectIds = oDegree.skill.drive;
 
-        res.json(oObj).send();
+        let aHeavyEffects = [];
+        let aSlideEffects = [];
+        let aDriveEffects = [];
+
+        aHeavyEffectIds.forEach(oHeavyEffectId => {
+            aEffectPromises.push(effectCollection.findById(oHeavyEffectId).then(doc => {
+                aHeavyEffects.push(doc);
+            }));
+        })
+        aSlideEffectIds.forEach(oSlideEffectId => {
+            aEffectPromises.push(effectCollection.findById(oSlideEffectId).then(doc => {
+                aSlideEffects.push(doc);
+            }));
+        })
+        aDriveEffectIds.forEach(oDriveEffectId => {
+            aEffectPromises.push(effectCollection.findById(oDriveEffectId).then(doc => {
+                aDriveEffects.push(doc);
+            }));
+        })
+
+        Promise.all(aEffectPromises).then(values => {
+            oObj.degree[0].skill.heavy = aHeavyEffects;
+            oObj.degree[0].skill.slide = aSlideEffects;
+            oObj.degree[0].skill.drive = aDriveEffects;
+
+            res.json(oObj).send();
+        })
+
     }).catch((err) => {
         console.log(err);
     });
