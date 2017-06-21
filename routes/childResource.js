@@ -13,8 +13,38 @@ var tagCollaction = require("../model/tagCollaction");
 /* GET Child list */
 router.get('/', function (req, res, next) {
     // TODO
+    var a = childCollection.find().then((docs) => {
+        var aChilds = [];
+        docs.forEach(oItem => {
+            aChilds.push(oItem._doc);
+        })
+        res.json(aChilds).send();
+    }).catch(err => {
+        console.error(err);
+    });
+});
 
-    
+/* GET Child by Id */
+router.get('/:childId', function (req, res, next) {
+    // TODO
+    var sChildId = req.params.childId;
+    childCollection.findById(sChildId).populate({
+        path: 'salesId',
+        select: '_id name phone merchant',
+        model: 'sales',
+        populate: {
+            path: 'merchant',
+            select: '_id sname',
+            model: 'merchant'
+        }
+    }).exec((err, doc) => {
+        var a = doc;
+
+    }).catch((err) => {
+        console.log(err);
+
+    });
+
 });
 
 /* POST creat child */
