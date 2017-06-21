@@ -29,20 +29,33 @@ router.get('/:childId', function (req, res, next) {
     // TODO
     var sChildId = req.params.childId;
     childCollection.findById(sChildId).populate({
-        path: 'salesId',
-        select: '_id name phone merchant',
-        model: 'sales',
+        path: 'degree',
+        select: '_id star parameter plus skill level',
+        // model: 'degree',
+        // populate: ['parameter', 'skill']
         populate: {
-            path: 'merchant',
-            select: '_id sname',
-            model: 'merchant'
+            path: 'parameter',
+            // select: '_id sname',
+            // model: 'parameter skill'
+            // populate: {
+            //     path: 'heavy slide drive',
+            //     populate: {
+            //         path: 'effect'
+            //     }
+            // }
         }
+    // }).populate({
+    //     path: 'degree.parameter'
     }).exec((err, doc) => {
-        var a = doc;
+        var oObj = doc._doc;
+        var oDegree = oObj.degree[0]._doc
+        oObj.degree[0] = oDegree;
 
+        // [TODO] populate skill info
+
+        res.json(oObj).send();
     }).catch((err) => {
         console.log(err);
-
     });
 
 });

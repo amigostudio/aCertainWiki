@@ -9,6 +9,10 @@ var degreeCollection = new Schema({
     parameter: {
         type: Schema.Types.ObjectId,
         ref: 'parameter'
+    },
+    skill: {
+        type: [Schema.Types.ObjectId],
+        ref: 'skill'
     }
 });
 
