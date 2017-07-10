@@ -1,12 +1,14 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require("mongoose");
+let errCode = require("../utils/errorCode");
 // import models
 let childCollection = require("../model/childCollection");
 let degreeCollaction = require("../model/degreeCollaction");
 let effectCollection = require("../model/effectCollection");
 let parameterCollection = require("../model/parameterCollection");
 let skillCollection = require("../model/skillCollection");
+let tagCollection = require("../model/tagCollection");
 
 
 
@@ -87,9 +89,13 @@ router.post('/', (req, res, next) => {
     let oParameter = oRequestBody.degree[0].parameter;
     let oChildToSave = {};
     let oSkill = {};
-    childCollection.findOne({NAME: oRequestBody.name}).then((err, doc) => {
+    childCollection.findOne({name: oRequestBody.name}).then((doc) => {
         if (doc) {
-            throw new Error("Child with name '" + oRequestBody.name + "' already exists!");
+            throw {
+                status: 409,
+                message: "Child with name '" + oRequestBody.name + "' already exists!",
+                code: errCode.DUPLICATE_CREATION
+            };
         }
         let aEffectPromises = [];
         let aSkillParamPromises = [];
@@ -199,10 +205,76 @@ router.post('/', (req, res, next) => {
                 res.send();
             });
         });
-    }).catch(function(err) {
-        console.error(err);
+    }).catch(err => {
+        let resBody = {};
+        resBody.errorCode = err.code;
+        resBody.errorMessage = err.message
+        
+        res.status(err.status).json(resBody).send();
     });
     // parameterCollection.insertParameter(postObject);
+});
+
+router.put('/:childId/addTag', (req, res, next) => {
+    let sChildId = req.params.childId;
+    let sTag = req.body.tag;
+    if (!sTag) {
+        throw {
+            status: 400,
+            message: "Tag cannot be empty!",
+            code: errCode.PARAMETER_MISSING
+        }
+    } 
+    
+    childCollection.findById(sChildId).populate({
+        path: 'degree',
+        select: '_id tag',
+
+        populate: {
+            path: 'tag'
+        }
+    }).exec((err, oChild) => {
+        if (!oChild) {
+            let resBody = {};
+            resBody.errorCode = errCode.ENTITY_NOT_FOUND;
+            resBody.errorMessage = "Child with id: '" + sChildId + "' does not exist!"
+            
+            res.status(400).json(resBody).send();
+            return;
+        }
+        let oObj = oChild._doc;
+        if (oObj.tag) {
+            tagCollection.findOne({"tag": sTag}).then((doc) => {
+                if (doc) {
+                    return doc.id;
+                }
+            }).then((sDocId) => {
+                if (oObj.tag.some((oTag) => { return oTag.toString()   === sDocId })) {
+                    throw {
+                        status: 409,
+                        message: "Tag already add to this child",
+                        code: errCode.DUPLICATE_CREATION
+                    };
+                } else {
+                    oObj.tag.push(sDocId);
+                    childCollection.update({_id: oChild.id}, oChild, ()=> res.status(204).send());
+                }
+            }).catch(err => {
+                let resBody = {};
+                resBody.errorCode = err.code;
+                resBody.errorMessage = err.message
+                
+                res.status(err.status).json(resBody).send();
+            });
+        }
+        
+    }).catch(err => {
+        let resBody = {};
+        resBody.errorCode = err.code;
+        resBody.errorMessage = err.message
+        
+        res.status(err.status).json(resBody).send();
+    });
 });
 
 module.exports = router;

@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require("mongoose");
 
-let tagCollaction = require("../model/tagCollaction");
+let tagCollaction = require("../model/tagCollection");
 
 router.get("/", (req, res, next) => {
     tagCollaction.find().then(docs => {
@@ -30,11 +30,11 @@ router.post("/", (req, res, next) => {
 
     tagCollaction.findOne({tag: sTag}).then(doc => {
         if (doc) {
-            next({
+            throw {
                 status: 400,
                 code: -1001,
                 message: "Tag '" + sTag + "' has already been created!"
-            });
+            };
         } else {
             tagCollaction.create({tag: sTag}).then(doc => {
                 res.json({
